@@ -10,6 +10,8 @@ public class MagicalPlugin extends JavaPlugin {
     public void onEnable() {
         getLogger().log(Level.INFO, "{0}.onEnable()", this.getClass().getName());
         getServer().getPluginManager().registerEvents(new MagicalWandListener(), this);
+
+        getServer().addRecipe(MagicalWand.getReceipe());
     }
 
     // This code is called before the server stops and after the /reload command

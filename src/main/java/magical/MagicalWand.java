@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.Utility;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
@@ -29,5 +30,15 @@ public class MagicalWand extends ItemStack {
     @Utility
     public int getMaxStackSize() {
         return 1;
+    }
+
+    public static ShapedRecipe getReceipe() {
+        ShapedRecipe magicalWandReceipe = new ShapedRecipe(new MagicalWand());
+        magicalWandReceipe.shape(" E ", " D ", " S ");
+        magicalWandReceipe.setIngredient('S', Material.STICK);
+        magicalWandReceipe.setIngredient('E', Material.EMERALD);
+        magicalWandReceipe.setIngredient('D', Material.DIAMOND);
+
+        return magicalWandReceipe;
     }
 }

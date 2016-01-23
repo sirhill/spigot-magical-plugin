@@ -8,14 +8,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -28,12 +27,28 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MagicalWandListener implements Listener {
-    private final Logger logger = Logger.getLogger("MagicalWandListener");
+    private final static Logger logger = Logger.getLogger("MagicalWandListener");
 
     @EventHandler
     public void playerJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        p.getInventory().setItem(0, new MagicalWand());
+        //p.getInventory().setItem(0, new MagicalWand());
+    }
+
+    @EventHandler
+    public void onCreateMagicalWand(CraftItemEvent craftItemEvent) {
+        Recipe recipe = craftItemEvent.getRecipe();
+
+        logger.info("Crafting receipe : "+recipe.getResult());
+        logger.info("Event : "+craftItemEvent.getWhoClicked());
+
+        if(recipe.getResult() != null
+                && recipe.getResult().getItemMeta() != null
+                && MagicalWand.DISPLAY_NAME.equals(
+                recipe.getResult().getItemMeta().getDisplayName())) {
+            Bukkit.getServer().broadcastMessage(
+                    craftItemEvent.getWhoClicked().getName()+" has become a magician !");
+        }
     }
 
     @EventHandler
@@ -42,6 +57,8 @@ public class MagicalWandListener implements Listener {
 
         if(Arrays.asList(Action.LEFT_CLICK_AIR, Action.LEFT_CLICK_BLOCK)
                 .contains(playerInteractEvent.getAction())
+                && playerInteractEvent.getItem() != null
+                && playerInteractEvent.getItem().getItemMeta() != null
                 && MagicalWand.DISPLAY_NAME.equals(
                 playerInteractEvent.getItem().getItemMeta().getDisplayName())) {
             p.launchProjectile(SmallFireball.class);
