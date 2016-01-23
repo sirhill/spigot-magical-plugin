@@ -47,7 +47,7 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <configuration>
                     <tasks>
-                        <copy file="target/magical-1.0-SNAPSHOT.jar" todir="E:\Work\minecraft\spigot\plugins"/>
+                        <copy file="target/magical-1.0-SNAPSHOT.jar" todir="D:\Projects\minecraft\spigot\plugins"/>
                     </tasks>
                 </configuration>
                 <executions>
